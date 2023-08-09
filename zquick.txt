@@ -1,0 +1,3 @@
+shift+alt+f beautify code
+alt+select cursor
+ctrl+alt+L all occurance

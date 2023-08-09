@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Domaine {
+  id          Int    @id @default(autoincrement()) @db.UnsignedInt
+  titre       String    @db.VarChar(255)
+  description String?   @db.VarChar(255)
+  created_at  DateTime? @default(now()) @db.DateTime(0)
+  updated_at  DateTime? @updatedAt @db.DateTime(0)
+  Risque      Risque[]
+
+  @@map("domaines")
+}
+
+model Risque {
+  id          Int    @id @default(autoincrement()) @db.UnsignedInt
+  titre       String    @db.VarChar(255)
+  description String?   @db.VarChar(255)
+  created_at  DateTime? @default(now()) @db.DateTime(0)
+  updated_at  DateTime? @updatedAt @db.DateTime(0)
+  domaine     Domaine   @relation(fields: [domaine_id], references: [id])
+  domaine_id  Int    @db.UnsignedInt
+  Mesure      Mesure[]
+
+  @@map("risques")
+}
+
+model Mesure {
+  id          Int    @id @default(autoincrement()) @db.UnsignedInt
+  titre       String    @db.VarChar(255)
+  description String?   @db.VarChar(255)
+  created_at  DateTime? @default(now()) @db.DateTime(0)
+  updated_at  DateTime? @updatedAt @db.DateTime(0)
+  risque      Risque    @relation(fields: [risque_id], references: [id])
+  risque_id   Int    @db.UnsignedInt
+
+  @@map("mesures")
+}
+
+
+model gouvernorat {
+  id         Int       @id @default(autoincrement()) @db.UnsignedInt
+  nom        String    @db.VarChar(255)
+  created_at DateTime? @default(now()) @db.DateTime(0)
+  updated_at DateTime? @updatedAt @db.DateTime(0)
+  commune     commune[]
+}
+
+model commune {
+  id         Int       @id @default(autoincrement()) @db.UnsignedInt
+  nom        String    @db.VarChar(255)
+  created_at DateTime? @default(now()) @db.DateTime(0)
+  updated_at DateTime? @updatedAt @db.DateTime(0)
+  gouvernorat   gouvernorat   @relation(fields: [gouvernorat_id], references: [id])
+  gouvernorat_id Int       @db.UnsignedInt
+  cartier     cartier[]
+}
+
+model cartier {
+  id         Int       @id @default(autoincrement()) @db.UnsignedInt
+  nom        String    @db.VarChar(255)
+  created_at DateTime? @default(now()) @db.DateTime(0)
+  updated_at DateTime? @updatedAt @db.DateTime(0)
+  commune    commune    @relation(fields: [commune_id], references: [id])
+  commune_id  Int       @db.UnsignedInt
+}
