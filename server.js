@@ -6,7 +6,7 @@ const app = express()
 require('express-async-errors')
 
 
-
+const authRoutes = require('./routes/authRoutes');
 const ModulePreventionRoutes = require('./routes/modulePreventionRoutes');
 const ModuleAdresseRoutes = require('./routes/moduleAdresseRoutes');
 const { errorHandler } = require('./middleware/index')
@@ -25,7 +25,7 @@ app.use((req, res, next) => {
     next()
 })
 
-
+app.use(authRoutes)
 app.use(ModulePreventionRoutes)
 app.use(ModuleAdresseRoutes)
 

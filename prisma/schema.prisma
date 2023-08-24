@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Domaine {
-  id          Int    @id @default(autoincrement()) @db.UnsignedInt
+  id          Int       @id @default(autoincrement()) @db.UnsignedInt
   titre       String    @db.VarChar(255)
   description String?   @db.VarChar(255)
   created_at  DateTime? @default(now()) @db.DateTime(0)
@@ -19,47 +19,46 @@ model Domaine {
 }
 
 model Risque {
-  id          Int    @id @default(autoincrement()) @db.UnsignedInt
+  id          Int       @id @default(autoincrement()) @db.UnsignedInt
   titre       String    @db.VarChar(255)
   description String?   @db.VarChar(255)
   created_at  DateTime? @default(now()) @db.DateTime(0)
   updated_at  DateTime? @updatedAt @db.DateTime(0)
   domaine     Domaine   @relation(fields: [domaine_id], references: [id])
-  domaine_id  Int    @db.UnsignedInt
+  domaine_id  Int       @db.UnsignedInt
   Mesure      Mesure[]
 
   @@map("risques")
 }
 
 model Mesure {
-  id          Int    @id @default(autoincrement()) @db.UnsignedInt
+  id          Int       @id @default(autoincrement()) @db.UnsignedInt
   titre       String    @db.VarChar(255)
   description String?   @db.VarChar(255)
   created_at  DateTime? @default(now()) @db.DateTime(0)
   updated_at  DateTime? @updatedAt @db.DateTime(0)
   risque      Risque    @relation(fields: [risque_id], references: [id])
-  risque_id   Int    @db.UnsignedInt
+  risque_id   Int       @db.UnsignedInt
 
   @@map("mesures")
 }
-
 
 model gouvernorat {
   id         Int       @id @default(autoincrement()) @db.UnsignedInt
   nom        String    @db.VarChar(255)
   created_at DateTime? @default(now()) @db.DateTime(0)
   updated_at DateTime? @updatedAt @db.DateTime(0)
-  commune     commune[]
+  commune    commune[]
 }
 
 model commune {
-  id         Int       @id @default(autoincrement()) @db.UnsignedInt
-  nom        String    @db.VarChar(255)
-  created_at DateTime? @default(now()) @db.DateTime(0)
-  updated_at DateTime? @updatedAt @db.DateTime(0)
-  gouvernorat   gouvernorat   @relation(fields: [gouvernorat_id], references: [id])
-  gouvernorat_id Int       @db.UnsignedInt
-  cartier     cartier[]
+  id             Int         @id @default(autoincrement()) @db.UnsignedInt
+  nom            String      @db.VarChar(255)
+  created_at     DateTime?   @default(now()) @db.DateTime(0)
+  updated_at     DateTime?   @updatedAt @db.DateTime(0)
+  gouvernorat    gouvernorat @relation(fields: [gouvernorat_id], references: [id])
+  gouvernorat_id Int         @db.UnsignedInt
+  cartier        cartier[]
 }
 
 model cartier {
@@ -67,6 +66,15 @@ model cartier {
   nom        String    @db.VarChar(255)
   created_at DateTime? @default(now()) @db.DateTime(0)
   updated_at DateTime? @updatedAt @db.DateTime(0)
-  commune    commune    @relation(fields: [commune_id], references: [id])
-  commune_id  Int       @db.UnsignedInt
+  commune    commune   @relation(fields: [commune_id], references: [id])
+  commune_id Int       @db.UnsignedInt
+}
+
+model admin {
+  id         Int       @id @default(autoincrement()) @db.UnsignedInt
+  nom        String    @db.VarChar(255)
+  email      String    @unique @db.VarChar(255)
+  password   String    @db.VarChar(255)
+  created_at DateTime? @default(now()) @db.DateTime(0)
+  updated_at DateTime? @updatedAt @db.DateTime(0)
 }
