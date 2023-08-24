@@ -123,3 +123,8 @@ VALUES
 ('Mnihla','1'),
 ('Raoued','1'),
 ('Sidi Thabet','1');
+
+
+{
+    "nom":"salim", "email":"s@gmail.com", "password":"236589"
+}

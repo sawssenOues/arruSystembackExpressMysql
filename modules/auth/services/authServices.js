@@ -9,4 +9,8 @@ module.exports.createAdmin = async (nom, email, password) => {
     return rows;
 };
 
-
+module.exports.getadminbyemail = async (email) => {
+    const record = prisma.admin.findUnique({ where: { email } })
+    prisma.$disconnect();
+    return record;
+}
