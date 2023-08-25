@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cors({
     credentials: true,
-    origin:'*'
+    origin: 'http://localhost:4200'
 }));
 
 app.use(authRoutes)
