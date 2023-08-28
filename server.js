@@ -3,9 +3,11 @@ const app = express()
 const cors = require('cors');
 const cookieParser = require('cookie-parser')
 
+
 require('express-async-errors')
 
-
+ 
+const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
 const ModulePreventionRoutes = require('./routes/modulePreventionRoutes');
 const ModuleAdresseRoutes = require('./routes/moduleAdresseRoutes');
@@ -30,7 +32,7 @@ app.use(cors({
     credentials: true,
     origin: 'http://localhost:4200'
 }));
-
+app.use(userRoutes)
 app.use(authRoutes)
 app.use(ModulePreventionRoutes)
 app.use(ModuleAdresseRoutes)
