@@ -29,11 +29,12 @@ module.exports.createuser = async (nom,prenom,date_naiss,email,image) => {
     return rows;
 };
 
-module.exports.updateuserById = async (id,nom,prenom,date_naiss,email,image) => {
-    const result = prisma.user.update({ where: { id: parseInt(id) }, data: { nom,prenom,date_naiss,email,image } })
+module.exports.updateuserById = async (id, updateData) => {
+    const result = prisma.user.update({ where: { id: parseInt(id) }, data: updateData });
     prisma.$disconnect();
     return result;
 };
+
 
 
 

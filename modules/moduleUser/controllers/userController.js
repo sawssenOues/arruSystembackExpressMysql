@@ -9,7 +9,7 @@ const multer = require('multer');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/'); // Set your desired directory path
+        cb(null, '../client/arruSystemfrontAngular/src/assets/uploads/'); // Set your desired directory 
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
@@ -50,12 +50,9 @@ router.post('/users/ajout', upload.single('image'), schema_validation(user_valid
     res.status(201).send('created successfully.')
 })
 
-// Update a user entry by its ID
 router.put('/users/update/:id', validateDbId('id'), upload.single('image'), schema_validation(user_validation), async (req, res) => {
     const { id } = req.params;
     const { nom, prenom, date_naiss, email } = req.body;
-    const imagename = req.file.filename;
-    const dateTimeString = `${date_naiss}T20:30:15.000Z`;
 
     // Check if the record with the given ID exists before attempting to update
     const existingRecord = await userService.getuserById(id);
@@ -64,7 +61,18 @@ router.put('/users/update/:id', validateDbId('id'), upload.single('image'), sche
         return res.status(404).json({ error: 'No record with the given id: ' + id });
     }
 
-    const result = await userService.updateuserById(id, nom, prenom, dateTimeString, email, imagename);
+    let updateData = {
+        nom,
+        prenom,
+        date_naiss: new Date(`${date_naiss}T20:30:15.000Z`),
+        email
+    };
+
+    if (req.file) {
+        updateData.image = req.file.filename;
+    }
+
+    const result = await userService.updateuserById(id, updateData);
 
     return res.status(200).send('Updated successfully.');
 });
